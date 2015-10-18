@@ -37,7 +37,7 @@ raskellGitDownload = Package{
                                   prefix="src/",
                                   branch="master"
                       },
-   rootDir = "test/",
+   rootDir = "../",
    modules = [["Download", "Internal"]]
 }
 
