@@ -3,15 +3,11 @@ import Raskell.Utils
 import Control.Monad (forM_)
 -- Adding comment 
 
-escapeSlash = concatMap f
- where f '\\' = "\\\\\\\\"
-       f x    = [x]
-
 downloadToFile url path = 
   do print url
      content <- fetchURL url
      print content
-     writeFile path $ escapeSlash content
+     writeFile path content
    
 data Repository = Repository{ repository :: String,
                               prefix     :: String,
@@ -28,7 +24,7 @@ gitDownload r targetdir mods =
      downloadToFile url localPath
   where url  = "https://raw.githubusercontent.com/"++repo++"/"++ branchName ++"/" ++ modPrefix ++ modPath
         modPath = dirPath ++ last mods ++ ".hs"
-        dirPath = concat $ map (\x->x++"/") (init mods)
+        dirPath = concat $ map (let f x = x++"/" in f) (init mods)
         localDirPath = targetdir ++ dirPath
         localPath    = targetdir ++ modPath
         repo         = repository r
@@ -42,8 +38,8 @@ raskellGitDownload = Package{
                                   prefix="src/",
                                   branch="master"
                       },
-   rootDir = "../",
+   rootDir = "test/",
    modules = [["Download", "Internal"]]
 }
 
-downloadPackage p = do forM_ (modules p) $ \m -> gitDownload (packageRepository p) (rootDir p) m
+downloadPackage p = do forM_ (modules p) $ let f m = gitDownload (packageRepository p) (rootDir p) m in f
