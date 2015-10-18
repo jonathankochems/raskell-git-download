@@ -24,7 +24,7 @@ gitDownload r targetdir mods =
      downloadToFile url localPath
   where url  = "https://raw.githubusercontent.com/"++repo++"/"++ branchName ++"/" ++ modPrefix ++ modPath
         modPath = dirPath ++ last mods ++ ".hs"
-        dirPath = concat $ map (let f x = x++"/" in f) (init mods)
+        dirPath = concatMap (let f x = x++"/" in f) (init mods)
         localDirPath = targetdir ++ dirPath
         localPath    = targetdir ++ modPath
         repo         = repository r
@@ -42,4 +42,4 @@ raskellGitDownload = Package{
    modules = [["RaskellDownload", "Internal"]]
 }
 
-downloadPackage p = do forM_ (modules p) $ let f m = gitDownload (packageRepository p) (rootDir p) m in f
+downloadPackage p = forM_ (modules p) $ gitDownload (packageRepository p) (rootDir p)
