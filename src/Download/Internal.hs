@@ -4,7 +4,7 @@ import Control.Monad (forM_)
 -- Adding comment 
 
 escapeSlash = concatMap f
- where f '\\' = "\\"
+ where f '\\' = "\\\\"
        f x    = [x]
 
 downloadToFile url path = 
