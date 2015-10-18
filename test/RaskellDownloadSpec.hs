@@ -6,7 +6,7 @@ main :: IO ()
 main = hspec spec
 
 spec :: Spec
-spec = do
+spec = --do
   describe "someFunction" $ 
     it "should work fine" $ 
       True `shouldBe` False
