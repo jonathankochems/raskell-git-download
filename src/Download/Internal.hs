@@ -3,6 +3,10 @@ import Raskell.Utils
 import Control.Monad (forM_)
 -- Adding comment 
 
+escapeSlash = concatMap f
+ where f '\\' = "\\"
+       f x    = [x]
+
 downloadToFile url path = 
   do print url
      content <- fetchURL url
