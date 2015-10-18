@@ -11,7 +11,7 @@ downloadToFile url path =
   do print url
      content <- fetchURL url
      print content
-     writeFile path content
+     writeFile path $ escapeSlash content
    
 data Repository = Repository{ repository :: String,
                               prefix     :: String,
