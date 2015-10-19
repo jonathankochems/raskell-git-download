@@ -39,7 +39,7 @@ script:
     fi)
 
 after_script: 
-  - codecov-haskell test-raskell-git-download --exclude-dir=test --display-report --print-response --dont-send > .tmp-report
+  - codecov-haskell test-raskell-git-download --exclude-dir=test --exclude-dir=src/Raskell --display-report --print-response --dont-send > .tmp-report
   - bash <(curl -s https://codecov.io/bash) -f .tmp-report
 
 notifications:

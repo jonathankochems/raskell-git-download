@@ -1,6 +1,7 @@
 module RaskellDownloadSpec (main, spec) where
 
 import Test.Hspec
+import RaskellDownload.Internal
 
 main :: IO ()
 main = hspec spec
@@ -10,4 +11,4 @@ spec = --do
   describe "someFunction" $ 
     it "should work fine" $
       -- TODO: write proper tests 
-      True `shouldBe` True
+      rootDir raskellGitDownload `shouldBe` "../"
