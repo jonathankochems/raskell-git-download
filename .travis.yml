@@ -20,7 +20,7 @@ install:
 script:
   - hlint . --ignore="Parse error"
   - cabal-1.20 configure --enable-tests --enable-benchmarks --enable-library-coverage -v2
-  - cabal-1.20 build
+  - cabal-1.20 build || cabal-1.20 clean; cabal-1.20 build
   - |
     if [ $GHCVER == "7.8.3" ]; then
       cabal-1.20 test --show-details=always
