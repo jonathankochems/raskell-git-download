@@ -29,14 +29,6 @@ script:
     fi
   - cabal-1.20 check
   - cabal-1.20 sdist
-  - export SRC_TGZ=$(cabal-1.20 info . | awk '{print $2 ".tar.gz";exit}') ;
-    (cd dist/;
-    if [ -f "$SRC_TGZ" ]; then
-      cabal-1.20 install "$SRC_TGZ";
-    else
-      echo "expected '$SRC_TGZ' not found";
-      exit 1;
-    fi)
 
 after_script: 
   - codecov-haskell test-raskell-git-download --exclude-dir=test --display-report --print-response --dont-send > .tmp-report
