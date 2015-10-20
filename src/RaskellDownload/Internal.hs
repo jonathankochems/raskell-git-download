@@ -12,7 +12,7 @@ downloadToFile url path =
 data Repository = Repository{ repository :: String,
                               prefix     :: String,
                               branch     :: String
-                            }
+                            } deriving (Show, Eq)
   
 data Package = Package{ packageRepository :: Repository,
                         rootDir           :: String,

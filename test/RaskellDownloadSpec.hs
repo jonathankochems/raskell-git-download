@@ -6,8 +6,10 @@ import RaskellDownload.Internal
 import System.Directory
 
 main :: IO ()
-main = do hspec helpers
-		  hspec dataTypes
+main = do hspec spec
+
+spec = do helpers
+          dataTypes
 
 helpers :: Spec
 helpers = 
@@ -41,5 +43,5 @@ dataTypes = do
                       						 }
       rootDir raskellGitDownload `shouldBe` "../"
       modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"]]
-      packageRepository raskellGitDownload `shouldBe` RaskellGitDownloadRepo
+      packageRepository raskellGitDownload `shouldBe` raskellGitDownloadRepo
       
