@@ -3,6 +3,8 @@ module RaskellDownloadSpec (main, spec) where
 import Test.Hspec
 import RaskellDownload.Internal
 
+import System.Directory
+
 main :: IO ()
 main = hspec spec
 
@@ -15,4 +17,4 @@ spec = --do
       doesFileExist ".test_output_file" `shouldBe` False
       downloadToFile "http://www.bogus.url/" ".test_output_file"
       readFile ".test_output_file" `shouldBe` ""
-      deleteFile ".test_output_file"
+      removeFile ".test_output_file"
