@@ -11,10 +11,12 @@ main = hspec spec
 spec :: Spec
 spec = --do
   describe "someFunction" $ 
-    it "should work fine" $
+    it "should work fine" $ do
       -- TODO: write proper tests 
       rootDir raskellGitDownload `shouldBe` "../"
-      doesFileExist ".test_output_file" `shouldBe` False
+      exists <- doesFileExist ".test_output_file" 
+      exists `shouldBe` False
       downloadToFile "http://www.bogus.url/" ".test_output_file"
-      readFile ".test_output_file" `shouldBe` ""
+      content <- readFile ".test_output_file" 
+      content `shouldBe` ""
       removeFile ".test_output_file"
