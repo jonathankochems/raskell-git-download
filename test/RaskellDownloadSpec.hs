@@ -6,7 +6,7 @@ import RaskellDownload.Internal
 import System.Directory
 
 main :: IO ()
-main = do hspec spec
+main = hspec spec
 
 spec = do helpers
           dataTypes
