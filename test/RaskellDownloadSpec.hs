@@ -18,7 +18,7 @@ helpers =
       rootDir raskellGitDownload `shouldBe` "../"
       exists <- doesFileExist ".test_output_file" 
       exists `shouldBe` False
-      downloadToFile "https://raw.githubusercontent.com/jonathankochems/raskell-git-download/develop/test/test" ".test_output_file"
+      downloadToFile "http://www.bogus.url/" ".test_output_file"
       content <- readFile ".test_output_file" 
       content `shouldBe` ""
       removeFile ".test_output_file"
