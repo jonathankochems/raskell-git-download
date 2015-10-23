@@ -14,8 +14,8 @@ before_install:
 install:
   - cabal-1.20 update
   - travis_retry sudo apt-get -q -y install hlint || cabal-1.20 install hlint
-  - cabal-1.20 install codecov-haskell
-  - cabal-1.20 install --only-dependencies --enable-tests --enable-benchmarks --reinstall
+  - cabal-1.20 install codecov-haskell --enable-tests --enable-benchmarks
+  - cabal-1.20 install --only-dependencies --enable-tests --enable-benchmarks
 
 script:
   - hlint . --ignore="Parse error"
