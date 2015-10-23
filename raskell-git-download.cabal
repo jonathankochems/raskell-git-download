@@ -74,8 +74,8 @@ library
   
   -- Other library packages from which modules are imported.
   build-depends:       base >=4 && <5,
-                       http-wget,
                        mtl,
+                       http-wget,
                        directory >= 1.2
   cc-options:          -fPIC
   ld-options:          -fPIC
