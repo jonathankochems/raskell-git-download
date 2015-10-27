@@ -1,12 +1,11 @@
 {-# LANGUAGE BangPatterns #-}
 module Raskell.Utils where
 
-import qualified Network.HTTP    as HTTP 
-import qualified Network.Browser as Browser
+import Network.HTTP.Conduit
+import Data.ByteString.Lazy.Char8
 
-fetchURL !url = do 
-    (_, rsp) <- Browser.browse $ do
-                  Browser.setOutHandler (const $ return ())
-                  Browser.setAllowRedirects True -- handle HTTP redirects
-                  Browser.request $ HTTP.getRequest url
-    return $ HTTP.rspBody rsp
+fetchURL !url = do
+    request <- parseUrl url
+    manager <- newManager tlsManagerSettings
+    res <- httpLbs request manager
+    return . unpack $ responseBody res
