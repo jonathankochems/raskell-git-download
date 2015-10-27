@@ -2,9 +2,10 @@
 module Raskell.Utils where
 
 import Network.HTTP.Conduit
+import Data.ByteString.Lazy.Char8
 
 fetchURL !url = do
     request <- parseUrl url
     manager <- newManager tlsManagerSettings
     res <- httpLbs request manager
-    return $ responseBody res
+    return . unpack $ responseBody res
