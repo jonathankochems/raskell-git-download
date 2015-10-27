@@ -23,10 +23,10 @@ gitdownload =
                                   			       prefix="src/",
                                       		     branch="develop"
                       						 }
-      gitDownload raskellGitDownloadRepo ".tmp" ["Raskell","Test"]
-      content <- readFile ".tmp/Raskell/Test.hs" 
+      gitDownload raskellGitDownloadRepo ".tmp/" ["Raskell","Test"]
+      content <- readFile path 
       content `shouldBe` "module Raskell.Test where\n"
-      removeFile ".tmp/Raskell/Test.hs"
+      removeFile path
 
 helpers :: Spec
 helpers = 
