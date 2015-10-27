@@ -16,18 +16,17 @@ gitdownload :: Spec
 gitdownload = 
   describe "RaskellGitDownload" $ 
     it "should download the requested Haskell modules from a GitHub repo" $ do
-      
+      let path = ".tmp/Raskell/Test.hs"
       exists <- doesFileExist ".tmp/Raskell/Test.hs" 
       exists `shouldBe` False
       let raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                  			   prefix="src/",
-                                      		   branch="develop"
+                                  			       prefix="src/",
+                                      		     branch="develop"
                       						 }
       gitDownload raskellGitDownloadRepo ".tmp" ["Raskell","Test"]
-      content <- readFile ".test_output_file" 
-      content `shouldBe` ""
-      removeFile ".test_output_file"
-
+      content <- readFile ".tmp/Raskell/Test.hs" 
+      content `shouldBe` "module Raskell.Test where\n"
+      removeFile ".tmp/Raskell/Test.hs"
 
 helpers :: Spec
 helpers = 
