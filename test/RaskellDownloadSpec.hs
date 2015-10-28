@@ -14,32 +14,28 @@ spec = do helpers
 
 gitdownload :: Spec
 gitdownload = do
-  let path = ".tmp/Raskell/Test.hs"
-      raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                  			       prefix="src/",
-                                      		     branch="develop"
-                      						 }
-  describe "RaskellGitDownload" $ 
-    it "should download the requested Haskell modules from a GitHub repo" $ do
-      exists <- doesFileExist path
-      exists `shouldBe` False
-      gitDownload raskellGitDownloadRepo ".tmp/" ["Raskell","Test"]
-      content <- readFile path 
-      content `shouldBe` "module Raskell.Test where\n"
-      removeFile path
-  describe "RaskellGitDownload" $ 
-    it "should download the requested Package from a GitHub repo" $ do
-      let package = Package{
-                      packageRepository = raskellGitDownloadRepo,
-                      rootDir = ".tmp/",
-                      modules = [["Raskell", "Test"]]
-                    }
-      exists <- doesFileExist path
-      exists `shouldBe` False
-      downloadPackage package
-      content <- readFile path 
-      content `shouldBe` "module Raskell.Test where\n"
-      removeFile path
+    let path = ".tmp/Raskell/Test.hs"
+        raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
+                                    			       prefix="src/",
+                                        		     branch="develop"
+                        						 }
+    describe "RaskellGitDownload" $ 
+      it "should download the requested Haskell modules from a GitHub repo" $ 
+        check_download_is path "module Raskell.Test where\n" $ gitDownload raskellGitDownloadRepo ".tmp/" ["Raskell","Test"]
+    describe "RaskellGitDownload" $ 
+      it "should download the requested Package from a GitHub repo" $ do
+        let package = Package{
+                        packageRepository = raskellGitDownloadRepo,
+                        rootDir = ".tmp/",
+                        modules = [["Raskell", "Test"]]
+                      }
+        check_download_is path "module Raskell.Test where\n" $ downloadPackage package
+  where check_download_is path content m = do  exists <- doesFileExist path
+                                               exists `shouldBe` False
+                                               m
+                                               content' <- readFile path 
+                                               content `shouldBe` content'
+                                               removeFile path
 
 helpers :: Spec
 helpers = 
