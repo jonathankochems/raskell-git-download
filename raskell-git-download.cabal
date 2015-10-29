@@ -13,10 +13,10 @@ name:                raskell-git-download
 version:             0.1.0.0
 
 -- A short (one-line) description of the package.
-synopsis:            Simple packe to allow haskell module downloads in raskell
+synopsis:            Simple package to allow haskell module downloads in raskell.
 
 -- A longer description of the package.
-description:        Simple packe to allow haskell module downloads in raskell
+description:         Simple package to allow haskell module downloads in raskell.
 
 -- URL for the project homepage or repository.
 homepage:            https://github.com/jonathankochems/raskell-git-download
