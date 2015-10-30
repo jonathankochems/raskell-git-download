@@ -17,16 +17,19 @@ as `RaskellDownload.hs` and `RaskellDownload/Internal.hs`. Then load RaskellDown
 ## Usage
 
 You can define a package as follows:
-> raskellGitDownload = Package{
->                          packageRepository = Repository{ repository="jonathankochems/raskell-git-download",
->                                                          prefix="src/",
->                                                          branch="master"
->                                                        },
->                          rootDir = "../",
->                          modules = [["RaskellDownload", "Internal"],
->                                     ["RaskellDownload"]
->                                    ]
->                      }
+
+```haskell
+ raskellGitDownload = Package{
+                          packageRepository = Repository{ repository="jonathankochems/raskell-git-download",
+                                                          prefix="src/",
+                                                          branch="master"
+                                                        },
+                          rootDir = "../",
+                          modules = [["RaskellDownload", "Internal"],
+                                     ["RaskellDownload"]
+                                    ]
+                      }
+```
 
 The package can then be installed using
 
