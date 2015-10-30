@@ -34,7 +34,9 @@ You can define a package as follows:
 
 The package can then be installed using
 
-> downloadPackage raskellGitDownload
+```haskell
+downloadPackage raskellGitDownload
+```
 
 ## How to run tests
 
