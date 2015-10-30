@@ -56,7 +56,9 @@ raskellGitDownload = Package{
                                   branch="master"
                       },
    rootDir = "../",
-   modules = [["RaskellDownload", "Internal"]]
+   modules = [["RaskellDownload", "Internal"],
+              ["RaskellDownload"]
+             ]
 }
 
 -- | downloadPackage p downloads a packge.

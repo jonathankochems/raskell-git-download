@@ -12,11 +12,25 @@ Download the following the following two files into Raskell
 
   https://raw.githubusercontent.com/jonathankochems/raskell-git-download/develop/src/RaskellDownload/Internal.hs
 
-as RaskellDownload.hs and RaskellDownload/Internal.hs. Then load RaskellDownload.hs into the interpreter and run `installRaskellGitDownload`.
+as `RaskellDownload.hs` and `RaskellDownload/Internal.hs`. Then load RaskellDownload.hs into the interpreter and run `installRaskellGitDownload`.
 
 ## Usage
 
-TODO: Write usage instructions here
+You can define a package as follows:
+> raskellGitDownload = Package{
+>                          packageRepository = Repository{ repository="jonathankochems/raskell-git-download",
+>                                                          prefix="src/",
+>                                                          branch="master"
+>                                                        },
+>                          rootDir = "../",
+>                          modules = [["RaskellDownload", "Internal"],
+>                                     ["RaskellDownload"]
+>                                    ]
+>                      }
+
+The package can then be installed using
+
+> downloadPackage raskellGitDownload
 
 ## How to run tests
 
