@@ -68,6 +68,6 @@ dataTypes = do
                                       		   branch="master"
                       						 }
       rootDir raskellGitDownload `shouldBe` "../"
-      modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"]]
+      modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload"]]
       packageRepository raskellGitDownload `shouldBe` raskellGitDownloadRepo
       
