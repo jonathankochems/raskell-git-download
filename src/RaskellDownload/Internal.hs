@@ -53,9 +53,9 @@ installRaskellGitDownload = downloadPackage raskellGitDownload
 raskellGitDownload = Package{
    packageRepository = Repository{ repository="jonathankochems/raskell-git-download",
                                   prefix="src/",
-                                  branch="master"
+                                  branch="develop"
                       },
-   rootDir = "../",
+   rootDir = "",
    modules = [["RaskellDownload", "Internal"],
               ["RaskellDownload"]
              ]
