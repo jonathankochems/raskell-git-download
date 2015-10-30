@@ -1,0 +1,52 @@
+language: haskell
+ghc:
+  - 7.8
+sudo: required
+env:
+  - GHCVER=7.8.3
+
+before_install:
+  - travis_retry sudo add-apt-repository -y ppa:hvr/ghc
+  - travis_retry sudo apt-get update
+  - travis_retry sudo apt-get install cabal-install-1.20 ghc-$GHCVER happy
+  - export PATH=/opt/ghc/$GHCVER/bin:$PATH
+
+install:
+  - cabal-1.20 update
+  - travis_retry sudo apt-get -q -y install hlint || cabal-1.20 install hlint
+  - cabal-1.20 install --only-dependencies --enable-tests --enable-benchmarks
+  - cabal-1.20 install --enable-benchmarks codecov-haskell
+
+
+script:
+  - hlint . --ignore="Parse error"
+  - cabal-1.20 configure --enable-tests --enable-benchmarks --enable-library-coverage -v2
+  - cabal-1.20 build || cabal-1.20 clean; cabal-1.20 build
+  - |
+    if [ $GHCVER == "7.8.3" ]; then
+      cabal-1.20 test --show-details=always
+    else
+      dist/build/run-cabal-test/run-cabal-test --cabal-name=cabal-1.20 --show-details=always
+    fi
+  - cabal-1.20 check
+  - cabal-1.20 sdist
+  - export SRC_TGZ=$(cabal-1.20 info . | awk '{print $2 ".tar.gz";exit}') ;
+    (cd dist/;
+    if [ -f "$SRC_TGZ" ]; then
+      cabal-1.20 install "$SRC_TGZ";
+    else
+      echo "expected '$SRC_TGZ' not found";
+      exit 1;
+    fi)
+
+after_script: 
+  - codecov-haskell test-raskell-git-download --exclude-dir=test --exclude-dir=src/Raskell/ --display-report --print-response --dont-send > .tmp-report
+  - bash <(curl -s https://codecov.io/bash) -f .tmp-report
+
+notifications:
+  webhooks:
+  urls:
+  on_success: change
+  on_failure: always
+  on_start: false
+  
