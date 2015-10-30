@@ -64,7 +64,7 @@ dataTypes = do
   describe "Package" $ 
     it "should describe a Repository, a list of modules, and an installation path" $ do
       let raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                  			   prefix="src/",
+                                  			     prefix="src/",
                                       		   branch="master"
                       						 }
       rootDir raskellGitDownload `shouldBe` "../"
