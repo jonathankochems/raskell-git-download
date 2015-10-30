@@ -6,7 +6,13 @@ Raskell-git-download is a simple module to download Haskell modules onto a iOS R
 
 ## Installation
 
-TODO: Write installation instructions here
+Download the following the following two files into Raskell 
+
+  https://raw.githubusercontent.com/jonathankochems/raskell-git-download/develop/src/RaskellDownload.hs 
+
+  https://raw.githubusercontent.com/jonathankochems/raskell-git-download/develop/src/RaskellDownload/Internal.hs
+
+as RaskellDownload.hs and RaskellDownload/Internal.hs. Then load RaskellDownload.hs into the interpreter and run `installRaskellGitDownload`.
 
 ## Usage
 
