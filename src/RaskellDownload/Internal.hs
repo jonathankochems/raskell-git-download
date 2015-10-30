@@ -7,7 +7,7 @@ import Control.Monad (forM_)
 downloadToFile url path = 
   do print url
      content <- fetchURL url
-     print content
+     putStrLn "received " ++ show $ length content ++ " characters"
      writeFile path content
 
 -- | Data type to describe repository information. 
