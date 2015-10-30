@@ -41,7 +41,6 @@ helpers :: Spec
 helpers = 
   describe "downloadToFile" $ 
     it "should download the content of a URL to a file" $ do
-      rootDir raskellGitDownload `shouldBe` "../"
       exists <- doesFileExist ".test_output_file" 
       exists `shouldBe` False
       downloadToFile "https://raw.githubusercontent.com/jonathankochems/raskell-git-download/develop/test/test" ".test_output_file"
@@ -64,10 +63,10 @@ dataTypes = do
   describe "Package" $ 
     it "should describe a Repository, a list of modules, and an installation path" $ do
       let raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                  			   prefix="src/",
+                                  			     prefix="src/",
                                       		   branch="master"
                       						 }
-      rootDir raskellGitDownload `shouldBe` "../"
+      rootDir raskellGitDownload `shouldBe` ""
       modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload"]]
       packageRepository raskellGitDownload `shouldBe` raskellGitDownloadRepo
       

@@ -7,7 +7,7 @@ import Control.Monad (forM_)
 downloadToFile url path = 
   do print url
      content <- fetchURL url
-     putStrLn $ "received " ++ (show $ length content) ++ " characters"
+     putStrLn $ "received " ++ show (length content) ++ " characters"
      writeFile path content
 
 -- | Data type to describe repository information. 
@@ -53,7 +53,7 @@ installRaskellGitDownload = downloadPackage raskellGitDownload
 raskellGitDownload = Package{
    packageRepository = Repository{ repository="jonathankochems/raskell-git-download",
                                   prefix="src/",
-                                  branch="develop"
+                                  branch="master"
                       },
    rootDir = "",
    modules = [["RaskellDownload", "Internal"],
