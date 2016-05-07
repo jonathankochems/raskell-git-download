@@ -3,6 +3,7 @@ module RaskellDownload.Internal where
 import System.Directory
 import Raskell.Utils
 import Control.Monad (forM_)
+import Data.Maybe (fromMaybe)
 
 downloadToFile url path = 
   do print url
@@ -14,27 +15,27 @@ data PathApi = PathApi { rawUrl :: String -> String -> String -> Maybe String ->
                        , toRawContents :: String -> String  }
 
 githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
-                                    intercalate "/" ["https://api.github.com/repos",owner,repo,"contents",path++parameters]
-                                    where parameters | null parameterlist = "" 
-                                                     | otherwise          = "?"++concat parameterlist
-                                          parameterlist = branchlist ++ authlist 
-                                          branchlist    = maybe [] (\b -> ["ref="++b]) branch 
-                                          authlist      = maybe [] (\t -> ["access_token="++t]) token
-                                in url
+                                       intercalate "/" ["https://api.github.com/repos",owner,repo,"contents",path++ parameters]
+                                     where parameters | null parameterlist = ""  
+                                                      | otherwise          = "? "++concat parameterlist
+                                           parameterlist = branchlist ++ authli st 
+                                           branchlist    = maybe [] (\b -> ["re f="++b]) branch 
+                                           authlist      = maybe [] (\t -> ["ac cess_token="++t]) token
+                                in url,
                         toRawContents = error "not implemented yet"
                      }
 
 githubApiRaw = PathApi{ rawUrl = let url owner repo path branch token =
-                                    intercalate "/" ["https://raw.githubusercontent.com/",owner,repo,branchname,path]
-                                    where branchname = maybe "master" id branch 
-                                in url
+                                        intercalate "/" ["https://raw.githubusercontent.com/",owner,repo,branchname,path]
+                                      where branchname = fromMaybe "master" branch 
+                                 in url,
                         toRawContents = id
                      }
 
 gogsApiRaw server = PathApi{ rawUrl = let url owner repo path branch token =
-                                    intercalate "/" ["https:/",server,owner,repo,branchname,path]
-                                    where branchname = maybe "master" id branch 
-                                in url
+                                             intercalate "/" ["https:/",server,owner,repo,branchname,path]
+                                           where branchname = fromMaybe "master" branch 
+                                      in url,
                         toRawContents = id
                      }
 
@@ -49,7 +50,7 @@ gogsApiRaw server = PathApi{ rawUrl = let url owner repo path branch token =
 --   branch allows to specify a branch such as master or develop
 data Repository = Repository{ owner      :: String,
                               repository :: String,
-                              authToken  :: Maybe String
+                              authToken  :: Maybe String,
                               prefix     :: String,
                               branch     :: String,
                               pathApi    :: Maybe PathApi
@@ -71,7 +72,7 @@ gitDownload r targetdir mods =
   do createDirectoryIfMissing True localDirPath
      downloadToFile url localPath
   where --url  = "https://raw.githubusercontent.com/"++repo++"/"++ branchName ++"/" ++ modPrefix ++ modPath
-        url     = (rawUrl api) own repo (modPrefix ++ modPath) (Just branchname) (authToken r) 
+        url     = rawUrl api own repo (modPrefix ++ modPath) (Just branchname) (authToken r) 
         modPath = dirPath ++ last mods ++ ".hs"
         dirPath = concatMap (let f x = x++"/" in f) (init mods)
         localDirPath = targetdir ++ dirPath
@@ -80,16 +81,16 @@ gitDownload r targetdir mods =
         own          = owner r
         modPrefix    = prefix r
         branchName   = branch r 
-        api          = maybe githubApiRaw id $ pathApi r
+        api          = fromMaybe githubApiRaw $ pathApi r
 
 -- | installRaskellGitDownload install the installRaskellGitDownload
 installRaskellGitDownload = downloadPackage raskellGitDownload
 
 -- | description of raskellGitDownload package
 raskellGitDownload = Package{
-   packageRepository = Repository{ owner="jonathankochems"
+   packageRepository = Repository{ owner="jonathankochems",
                                    repository="raskell-git-download",
-                                   authToken=Nothing
+                                   authToken=Nothing,
                                    prefix="src/",
                                    branch="master",
                                    pathApi=Nothing
