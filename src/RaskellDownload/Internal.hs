@@ -4,6 +4,7 @@ import System.Directory
 import Raskell.Utils
 import Control.Monad (forM_)
 import Data.Maybe (fromMaybe)
+import Data.List (intercalate)
 
 downloadToFile url path = 
   do print url
@@ -18,7 +19,7 @@ githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                                        intercalate "/" ["https://api.github.com/repos",owner,repo,"contents",path++ parameters]
                                      where parameters | null parameterlist = ""  
                                                       | otherwise          = "? "++concat parameterlist
-                                           parameterlist = branchlist ++ authli st 
+                                           parameterlist = branchlist ++ authlist 
                                            branchlist    = maybe [] (\b -> ["re f="++b]) branch 
                                            authlist      = maybe [] (\t -> ["ac cess_token="++t]) token
                                 in url,
@@ -71,8 +72,7 @@ data Package = Package{ packageRepository :: Repository,
 gitDownload r targetdir mods = 
   do createDirectoryIfMissing True localDirPath
      downloadToFile url localPath
-  where --url  = "https://raw.githubusercontent.com/"++repo++"/"++ branchName ++"/" ++ modPrefix ++ modPath
-        url     = rawUrl api own repo (modPrefix ++ modPath) (Just branchname) (authToken r) 
+  where url     = rawUrl api own repo (modPrefix ++ modPath) (Just branchName) (authToken r) 
         modPath = dirPath ++ last mods ++ ".hs"
         dirPath = concatMap (let f x = x++"/" in f) (init mods)
         localDirPath = targetdir ++ dirPath
