@@ -15,9 +15,12 @@ spec = do helpers
 gitdownload :: Spec
 gitdownload = do
     let path = ".tmp/Raskell/Test.hs"
-        raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                    			       prefix="src/",
-                                        		     branch="develop"
+        raskellGitDownloadRepo = Repository{ owner="jonathankochems",
+                                             repository="raskell-git-download",
+                                             authToken=Nothing,
+                                    			   prefix="src/",
+                                             branch="develop",
+                                             pathApi=Nothing
                         						 }
     describe "RaskellGitDownload" $ 
       it "should download the requested Haskell modules from a GitHub repo" $ 
@@ -62,10 +65,13 @@ dataTypes = do
 
   describe "Package" $ 
     it "should describe a Repository, a list of modules, and an installation path" $ do
-      let raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                  			     prefix="src/",
-                                      		   branch="master"
-                      						 }
+      let raskellGitDownloadRepo = Repository{ owner="jonathankochems",
+                                               repository="raskell-git-download",
+                                               authToken=Nothing,
+                                               prefix="src/",
+                                               branch="develop",
+                                               pathApi=Nothing
+                                     }
       rootDir raskellGitDownload `shouldBe` ""
       modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload"]]
       packageRepository raskellGitDownload `shouldBe` raskellGitDownloadRepo
