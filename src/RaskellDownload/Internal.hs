@@ -13,7 +13,7 @@ downloadToFile url path =
      writeFile path content
 
 data PathApi = PathApi { rawUrl :: String -> String -> String -> Maybe String -> Maybe String -> String
-                       , toRawContents :: String -> String  }
+                       , toRawContents :: String -> String  } deriving (Show, Eq)
 
 githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                                        intercalate "/" ["https://api.github.com/repos",owner,repo,"contents",path++ parameters]
