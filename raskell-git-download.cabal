@@ -10,7 +10,7 @@ name:                raskell-git-download
 -- PVP summary:      +-+------- breaking API changes
 --                   | | +----- non-breaking API additions
 --                   | | | +--- code changes with no API change
-version:             0.1.0.0
+version:             0.2.0.0
 
 -- A short (one-line) description of the package.
 synopsis:            Simple package to allow haskell module downloads in raskell.
@@ -58,7 +58,7 @@ source-repository head
 source-repository this
   type:     git
   location: git://github.com/jonathankochems/raskell-git-download.git 
-  branch:   master
+  branch:   feature/apis
   tag:      tip
 
 library
