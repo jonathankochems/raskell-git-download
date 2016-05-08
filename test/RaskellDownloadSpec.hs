@@ -79,4 +79,8 @@ dataTypes = do
       rootDir raskellGitDownload `shouldBe` ""
       modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload"]]
       packageRepository raskellGitDownload `shouldBe` raskellGitDownloadRepo
+  describe "PathApi" $ 
+    it "should provide URLs and interpretations which give access to the raw contents of repository files" $ do
+      githubApiRaw `shouldBe` githubApiV3
+      show githubApiRaw `shouldBe` show githubApiV3
       
