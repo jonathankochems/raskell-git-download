@@ -28,7 +28,7 @@ githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                                                       | otherwise          = "? "++concat parameterlist
                                            parameterlist = branchlist ++ authlist 
                                            branchlist    = maybe [] (\b -> ["re f="++b]) branch 
-                                           authlist      = maybe [] (\t -> ["ac cess_token="++t]) token
+                                           authlist      = maybe [] (\t -> ["access_token="++t]) token
                                 in url,
                         toRawContents = error "not implemented yet"
                      }
@@ -41,8 +41,9 @@ githubApiRaw = PathApi{ rawUrl = let url owner repo path branch token =
                      }
 
 gogsApiRaw server = PathApi{ rawUrl = let url owner repo path branch token =
-                                             intercalate "/" ["https:/",server,owner,repo,branchname,path]
+                                             intercalate "/" ["https:/",server,owner,repo,"raw",branchname,path++authtoken]
                                            where branchname = fromMaybe "master" branch 
+                                                 authtoken  = maybe "" (\t -> "?auth_token="++t) token
                                       in url,
                         toRawContents = id
                      }
