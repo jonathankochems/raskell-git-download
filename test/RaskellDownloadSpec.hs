@@ -65,7 +65,7 @@ dataTypes = do
       owner      raskellGitDownloadRepo `shouldBe` "jonathankochems"
       repository raskellGitDownloadRepo `shouldBe` "raskell-git-download"
       prefix     raskellGitDownloadRepo `shouldBe` "src/"
-      branch     raskellGitDownloadRepo `shouldBe` "master"
+      branch     raskellGitDownloadRepo `shouldBe` "develop"
 
   describe "Package" $ 
     it "should describe a Repository, a list of modules, and an installation path" $ do
