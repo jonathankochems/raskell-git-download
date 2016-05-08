@@ -19,7 +19,7 @@ gitdownload = do
                                              repository="raskell-git-download",
                                              authToken=Nothing,
                                     			   prefix="src/",
-                                             branch="master",
+                                             branch="develop",
                                              pathApi=Nothing
                         						 }
     describe "RaskellGitDownload" $ 
@@ -59,10 +59,11 @@ dataTypes = do
                                                repository="raskell-git-download",
                                                authToken=Nothing,
                                                prefix="src/",
-                                               branch="master",
+                                               branch="develop",
                                                pathApi=Nothing
                                      }
-      repository raskellGitDownloadRepo `shouldBe` "jonathankochems/raskell-git-download"
+      owner      raskellGitDownloadRepo `shouldBe` "jonathankochems"
+      repository raskellGitDownloadRepo `shouldBe` "raskell-git-download"
       prefix     raskellGitDownloadRepo `shouldBe` "src/"
       branch     raskellGitDownloadRepo `shouldBe` "master"
 
@@ -72,7 +73,7 @@ dataTypes = do
                                                repository="raskell-git-download",
                                                authToken=Nothing,
                                                prefix="src/",
-                                               branch="master",
+                                               branch="develop",
                                                pathApi=Nothing
                                      }
       rootDir raskellGitDownload `shouldBe` ""
