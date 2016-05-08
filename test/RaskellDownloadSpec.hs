@@ -83,4 +83,6 @@ dataTypes = do
     it "should provide URLs and interpretations which give access to the raw contents of repository files" $ do
       githubApiRaw `shouldBe` githubApiV3
       show githubApiRaw `shouldBe` show githubApiV3
+      rawUrl githubApiRaw "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing Nothing `shouldBe` "https://raw.githubusercontent.com/jonathankochems/raskell-git-download/master/src/Raskell/Test.hs"
+      rawUrl githubApiV3 "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing Nothing `shouldBe` "https://api.github.com/repos/jonathankochems/raskell-git-download/contents/src/Raskell/Test.hs"
       
