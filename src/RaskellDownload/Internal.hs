@@ -34,7 +34,7 @@ githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                      }
 
 githubApiRaw = PathApi{ rawUrl = let url owner repo path branch token =
-                                        intercalate "/" ["https://raw.githubusercontent.com/",owner,repo,branchname,path]
+                                        intercalate "/" ["https://raw.githubusercontent.com",owner,repo,branchname,path]
                                       where branchname = fromMaybe "master" branch 
                                  in url,
                         toRawContents = id
@@ -99,7 +99,7 @@ raskellGitDownload = Package{
                                    repository="raskell-git-download",
                                    authToken=Nothing,
                                    prefix="src/",
-                                   branch="master",
+                                   branch="develop",
                                    pathApi=Nothing
                       },
    rootDir = "",
