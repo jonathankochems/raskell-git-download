@@ -19,7 +19,7 @@ gitdownload = do
                                              repository="raskell-git-download",
                                              authToken=Nothing,
                                     			   prefix="src/",
-                                             branch="develop",
+                                             branch="master",
                                              pathApi=Nothing
                         						 }
     describe "RaskellGitDownload" $ 
@@ -55,10 +55,13 @@ dataTypes :: Spec
 dataTypes = do
   describe "Repository" $ 
     it "should describe a git repository, with a branch, and a prefix to the source code modules" $ do
-      let raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                  			   prefix="src/",
-                                      		   branch="master"
-                      						 }
+      let raskellGitDownloadRepo = Repository{ owner="jonathankochems",
+                                               repository="raskell-git-download",
+                                               authToken=Nothing,
+                                               prefix="src/",
+                                               branch="master",
+                                               pathApi=Nothing
+                                     }
       repository raskellGitDownloadRepo `shouldBe` "jonathankochems/raskell-git-download"
       prefix     raskellGitDownloadRepo `shouldBe` "src/"
       branch     raskellGitDownloadRepo `shouldBe` "master"
@@ -69,7 +72,7 @@ dataTypes = do
                                                repository="raskell-git-download",
                                                authToken=Nothing,
                                                prefix="src/",
-                                               branch="develop",
+                                               branch="master",
                                                pathApi=Nothing
                                      }
       rootDir raskellGitDownload `shouldBe` ""
