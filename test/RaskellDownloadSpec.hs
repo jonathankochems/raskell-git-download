@@ -86,6 +86,6 @@ dataTypes = do
       rawUrl githubApiRaw "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing Nothing `shouldBe` "https://raw.githubusercontent.com/jonathankochems/raskell-git-download/master/src/Raskell/Test.hs"
       rawUrl githubApiV3 "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing Nothing `shouldBe` "https://api.github.com/repos/jonathankochems/raskell-git-download/contents/src/Raskell/Test.hs"
       rawUrl (gogsApiRaw "github.com") "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing (Just "TOKEN") `shouldBe` "https://github.com/api/v1/repos/jonathankochems/raskell-git-download/raw/master/src/Raskell/Test.hs?token=TOKEN"
-      toRawContents githubApiV3 "" `shouldBe` ""
+      toRawContents githubApiRaw "" `shouldBe` ""
       toRawContents (gogsApiRaw "github.com") "" `shouldBe` ""
       
