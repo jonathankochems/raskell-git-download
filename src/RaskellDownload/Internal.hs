@@ -41,9 +41,9 @@ githubApiRaw = PathApi{ rawUrl = let url owner repo path branch token =
                      }
 
 gogsApiRaw server = PathApi{ rawUrl = let url owner repo path branch token =
-                                             intercalate "/" ["https:/",server,owner,repo,"raw",branchname,path++authtoken]
+                                             intercalate "/" ["https:/",server,"api","v1","repos",owner,repo,"raw",branchname,path++authtoken]
                                            where branchname = fromMaybe "master" branch 
-                                                 authtoken  = maybe "" (\t -> "?auth_token="++t) token
+                                                 authtoken  = maybe "" (\t -> "?token="++t) token
                                       in url,
                         toRawContents = id
                      }
