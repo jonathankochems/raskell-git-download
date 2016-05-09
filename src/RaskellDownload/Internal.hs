@@ -4,7 +4,6 @@ import System.Directory
 import Raskell.Utils
 import Control.Monad (forM_)
 import Data.Maybe (fromMaybe)
-import Data.List (intercalate)
 
 downloadToFile url path = 
   do print url
@@ -27,8 +26,8 @@ githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                                      where parameters | null parameterlist = ""  
                                                       | otherwise          = "? "++concat parameterlist
                                            parameterlist = branchlist ++ authlist 
-                                           branchlist    = maybe [] (\b -> ["re f="++b]) branch 
-                                           authlist      = maybe [] (\t -> ["access_token="++t]) token
+                                           branchlist    = maybe [] (let f b = ["re f="++b] in f) branch 
+                                           authlist      = maybe [] (let f t = ["access_token="++t] in f) token
                                 in url,
                         toRawContents = error "not implemented yet"
                      }
@@ -111,3 +110,8 @@ raskellGitDownload = Package{
 
 -- | downloadPackage p downloads a packge.
 downloadPackage p = forM_ (modules p) $ gitDownload (packageRepository p) (rootDir p)
+
+-- | intercalate from Data.List inlined here for self-containment
+intercalate y []     = [] 
+intercalate y [x]    = x 
+intercalate y (x:xs) = x++y++intercalate y xs
