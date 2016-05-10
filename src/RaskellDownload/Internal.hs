@@ -24,7 +24,7 @@ instance Eq PathApi where
 githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                                        intercalate "/" ["https://api.github.com/repos",owner,repo,"contents",path++ parameters]
                                      where parameters | null parameterlist = ""  
-                                                      | otherwise          = "? "++concat parameterlist
+                                                      | otherwise          = "? "++intercalate "&" parameterlist
                                            parameterlist = branchlist ++ authlist 
                                            branchlist    = maybe [] (let f b = ["ref="++b] in f) branch 
                                            authlist      = maybe [] (let f t = ["access_token="++t] in f) token
