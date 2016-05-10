@@ -66,6 +66,7 @@ dataTypes = do
       repository raskellGitDownloadRepo `shouldBe` "raskell-git-download"
       prefix     raskellGitDownloadRepo `shouldBe` "src/"
       branch     raskellGitDownloadRepo `shouldBe` "develop"
+      authToken  raskellGitDownloadRepo `shouldBe` Nothing
 
   describe "Package" $ 
     it "should describe a Repository, a list of modules, and an installation path" $ do
@@ -85,6 +86,7 @@ dataTypes = do
       show githubApiRaw `shouldBe` show githubApiV3
       rawUrl githubApiRaw "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing Nothing `shouldBe` "https://raw.githubusercontent.com/jonathankochems/raskell-git-download/master/src/Raskell/Test.hs"
       rawUrl githubApiV3 "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing Nothing `shouldBe` "https://api.github.com/repos/jonathankochems/raskell-git-download/contents/src/Raskell/Test.hs"
+      rawUrl githubApiV3 "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" (Just "master") (Just "TOKEN") `shouldBe` "https://api.github.com/repos/jonathankochems/raskell-git-download/contents/src/Raskell/Test.hs?ref=master&access_token=TOKEN"
       rawUrl (gogsApiRaw "github.com") "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing (Just "TOKEN") `shouldBe` "https://github.com/api/v1/repos/jonathankochems/raskell-git-download/raw/master/src/Raskell/Test.hs?token=TOKEN"
       toRawContents githubApiRaw "" `shouldBe` ""
       toRawContents (gogsApiRaw "github.com") "" `shouldBe` ""
