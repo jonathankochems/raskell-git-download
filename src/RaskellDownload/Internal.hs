@@ -26,7 +26,7 @@ githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                                      where parameters | null parameterlist = ""  
                                                       | otherwise          = "? "++concat parameterlist
                                            parameterlist = branchlist ++ authlist 
-                                           branchlist    = maybe [] (let f b = ["re f="++b] in f) branch 
+                                           branchlist    = maybe [] (let f b = ["ref="++b] in f) branch 
                                            authlist      = maybe [] (let f t = ["access_token="++t] in f) token
                                 in url,
                         toRawContents = error "not implemented yet"
