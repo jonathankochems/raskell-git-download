@@ -64,6 +64,7 @@ source-repository this
 library
   -- Modules exported by the library.
   Exposed-Modules:      RaskellDownload
+                        RaskellDownload.PathApis
   
   -- Modules included in this library but not exported.
   Other-Modules:        RaskellDownload.Internal,
