@@ -18,10 +18,10 @@ gitdownload = do
         raskellGitDownloadRepo = Repository{ owner="jonathankochems",
                                              repository="raskell-git-download",
                                              authToken=Nothing,
-                                    			   prefix="src/",
+                                             prefix="src/",
                                              branch="develop",
                                              pathApi=Nothing
-                        						 }
+                                     }
     describe "RaskellGitDownload" $ 
       it "should download the requested Haskell modules from a GitHub repo" $ 
         check_download_is path "module Raskell.Test where\n" $ gitDownload raskellGitDownloadRepo ".tmp/" ["Raskell","Test"]
@@ -80,6 +80,7 @@ dataTypes = do
       rootDir raskellGitDownload `shouldBe` ""
       modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload"]]
       packageRepository raskellGitDownload `shouldBe` raskellGitDownloadRepo
+      
   describe "PathApi" $ 
     it "should provide URLs and interpretations which give access to the raw contents of repository files" $ do
       githubApiRaw `shouldBe` githubApiV3
