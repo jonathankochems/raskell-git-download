@@ -10,7 +10,7 @@ name:                raskell-git-download
 -- PVP summary:      +-+------- breaking API changes
 --                   | | +----- non-breaking API additions
 --                   | | | +--- code changes with no API change
-version:             0.1.0.0
+version:             0.2.0.0
 
 -- A short (one-line) description of the package.
 synopsis:            Simple package to allow haskell module downloads in raskell.
@@ -64,6 +64,7 @@ source-repository this
 library
   -- Modules exported by the library.
   Exposed-Modules:      RaskellDownload
+                        RaskellDownload.PathApis
   
   -- Modules included in this library but not exported.
   Other-Modules:        RaskellDownload.Internal,
@@ -93,6 +94,7 @@ Test-Suite test-raskell-git-download
   build-depends:    base,
                     directory >= 1.2,
                     bytestring,
+                    tls == 1.2.0,
                     http-conduit,
                     hspec >= 1.3,
                     QuickCheck >= 2.6,

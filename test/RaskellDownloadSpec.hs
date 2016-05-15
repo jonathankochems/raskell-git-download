@@ -2,6 +2,7 @@ module RaskellDownloadSpec (main, spec) where
 
 import Test.Hspec
 import RaskellDownload.Internal
+import RaskellDownload.PathApis
 
 import System.Directory
 
@@ -15,10 +16,13 @@ spec = do helpers
 gitdownload :: Spec
 gitdownload = do
     let path = ".tmp/Raskell/Test.hs"
-        raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                    			       prefix="src/",
-                                        		     branch="develop"
-                        						 }
+        raskellGitDownloadRepo = Repository{ owner="jonathankochems",
+                                             repository="raskell-git-download",
+                                             authToken=Nothing,
+                                             prefix="src/",
+                                             branch="develop",
+                                             pathApi=Nothing
+                                     }
     describe "RaskellGitDownload" $ 
       it "should download the requested Haskell modules from a GitHub repo" $ 
         check_download_is path "module Raskell.Test where\n" $ gitDownload raskellGitDownloadRepo ".tmp/" ["Raskell","Test"]
@@ -52,21 +56,40 @@ dataTypes :: Spec
 dataTypes = do
   describe "Repository" $ 
     it "should describe a git repository, with a branch, and a prefix to the source code modules" $ do
-      let raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                  			   prefix="src/",
-                                      		   branch="master"
-                      						 }
-      repository raskellGitDownloadRepo `shouldBe` "jonathankochems/raskell-git-download"
+      let raskellGitDownloadRepo = Repository{ owner="jonathankochems",
+                                               repository="raskell-git-download",
+                                               authToken=Nothing,
+                                               prefix="src/",
+                                               branch="develop",
+                                               pathApi=Nothing
+                                     }
+      owner      raskellGitDownloadRepo `shouldBe` "jonathankochems"
+      repository raskellGitDownloadRepo `shouldBe` "raskell-git-download"
       prefix     raskellGitDownloadRepo `shouldBe` "src/"
-      branch     raskellGitDownloadRepo `shouldBe` "master"
+      branch     raskellGitDownloadRepo `shouldBe` "develop"
+      authToken  raskellGitDownloadRepo `shouldBe` Nothing
 
   describe "Package" $ 
     it "should describe a Repository, a list of modules, and an installation path" $ do
-      let raskellGitDownloadRepo = Repository{ repository="jonathankochems/raskell-git-download",
-                                  			     prefix="src/",
-                                      		   branch="master"
-                      						 }
+      let raskellGitDownloadRepo = Repository{ owner="jonathankochems",
+                                               repository="raskell-git-download",
+                                               authToken=Nothing,
+                                               prefix="src/",
+                                               branch="master",
+                                               pathApi=Nothing
+                                     }
       rootDir raskellGitDownload `shouldBe` ""
-      modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload"]]
+      modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload", "PathApis"], ["RaskellDownload"]]
       packageRepository raskellGitDownload `shouldBe` raskellGitDownloadRepo
+      
+  describe "PathApi" $ 
+    it "should provide URLs and interpretations which give access to the raw contents of repository files" $ do
+      githubApiRaw `shouldBe` githubApiV3
+      show githubApiRaw `shouldBe` show githubApiV3
+      rawUrl githubApiRaw "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing Nothing `shouldBe` "https://raw.githubusercontent.com/jonathankochems/raskell-git-download/master/src/Raskell/Test.hs"
+      rawUrl githubApiV3 "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing Nothing `shouldBe` "https://api.github.com/repos/jonathankochems/raskell-git-download/contents/src/Raskell/Test.hs"
+      rawUrl githubApiV3 "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" (Just "master") (Just "TOKEN") `shouldBe` "https://api.github.com/repos/jonathankochems/raskell-git-download/contents/src/Raskell/Test.hs?ref=master&access_token=TOKEN"
+      rawUrl (gogsApiRaw "github.com") "jonathankochems" "raskell-git-download" "src/Raskell/Test.hs" Nothing (Just "TOKEN") `shouldBe` "https://github.com/api/v1/repos/jonathankochems/raskell-git-download/raw/master/src/Raskell/Test.hs?token=TOKEN"
+      toRawContents githubApiRaw "" `shouldBe` ""
+      toRawContents (gogsApiRaw "github.com") "" `shouldBe` ""
       
