@@ -7,11 +7,9 @@ module RaskellDownload ( -- * Packages
                         -- * Path Apis 
                          PathApi(..), 
                          githubApiRaw,
-                         gogsApiRaw,
-                         githubApiV3,                        
                          -- * raskellGitDownload Package
                          raskellGitDownload, 
                          installRaskellGitDownload                       
 ) where
 
-import RaskellDownload.Internal(downloadPackage, installRaskellGitDownload, raskellGitDownload, Package(..), Repository(..), PathApi(..), githubApiRaw, gogsApiRaw, githubApiV3 )
+import RaskellDownload.Internal(downloadPackage, installRaskellGitDownload, raskellGitDownload, Package(..), Repository(..), PathApi(..), githubApiRaw )

@@ -2,6 +2,7 @@ module RaskellDownloadSpec (main, spec) where
 
 import Test.Hspec
 import RaskellDownload.Internal
+import RaskellDownload.PathApis
 
 import System.Directory
 
@@ -78,7 +79,7 @@ dataTypes = do
                                                pathApi=Nothing
                                      }
       rootDir raskellGitDownload `shouldBe` ""
-      modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload"]]
+      modules raskellGitDownload `shouldBe` [["RaskellDownload", "Internal"], ["RaskellDownload", "PathApis"], ["RaskellDownload"]]
       packageRepository raskellGitDownload `shouldBe` raskellGitDownloadRepo
       
   describe "PathApi" $ 

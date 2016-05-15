@@ -11,7 +11,8 @@ downloadToFile url path =
      putStrLn $ "received " ++ show (length content) ++ " characters"
      writeFile path content
 
--- | Data Type for Path APIs.
+-- | Data Type for Path APIs. Default API is 'githubApiRaw'. Other available APIs are 'RaskellDownload.PathApis.gogsApiRaw' and 'RaskellDownload.PathApis.githubApiV3' 
+--      in module @RaskellDownload.PathApis@.
 --
 --   [@rawUrl@] 
 --         if we have an @api :: PathApi@ then the expression
@@ -30,19 +31,6 @@ instance Show PathApi where
 instance Eq PathApi where
   (==) x y = True
 
-
--- | Path API for github server using the github API v3 (<https://developer.github.com/v3/>)
-githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
-                                       intercalate "/" ["https://api.github.com/repos",owner,repo,"contents",path++ parameters]
-                                     where parameters | null parameterlist = ""  
-                                                      | otherwise          = "?":intercalate "&" parameterlist
-                                           parameterlist = branchlist ++ authlist 
-                                           branchlist    = maybe [] (let f b = ["ref="++b] in f) branch 
-                                           authlist      = maybe [] (let f t = ["access_token="++t] in f) token
-                                in url,
-                        toRawContents = error "not implemented yet"
-                     }
-
 -- | Path API for github server (<https://github.com/>)
 githubApiRaw = PathApi{ rawUrl = let url owner repo path branch token =
                                         intercalate "/" ["https://raw.githubusercontent.com",owner,repo,branchname,path]
@@ -50,16 +38,6 @@ githubApiRaw = PathApi{ rawUrl = let url owner repo path branch token =
                                  in url,
                         toRawContents = id
                      }
--- | Path API for gogs git server (<https://gogs.io/>)
-gogsApiRaw server = PathApi{ rawUrl = let url owner repo path branch token =
-                                             intercalate "/" ["https:/",server,"api","v1","repos",owner,repo,"raw",branchname,path++authtoken]
-                                           where branchname = fromMaybe "master" branch 
-                                                 authtoken  = maybe "" (let f t = "?token="++t in f) token
-                                      in url,
-                        toRawContents = id
-                     }
-
-
 
 -- | Data type to describe repository information. 
 --
@@ -126,6 +104,7 @@ raskellGitDownload = Package{
                       },
    rootDir = "",
    modules = [["RaskellDownload", "Internal"],
+              ["RaskellDownload", "PathApis"],
               ["RaskellDownload"]
              ]
 }
