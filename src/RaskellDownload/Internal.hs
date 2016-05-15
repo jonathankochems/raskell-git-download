@@ -11,6 +11,16 @@ downloadToFile url path =
      putStrLn $ "received " ++ show (length content) ++ " characters"
      writeFile path content
 
+-- | Data Type for Path APIs.
+--
+--   [@rawUrl@] 
+--         if we have an @api :: PathApi@ then the expression
+--              @downloadUrl = rawUrl api owner repo path branch token@ evaluates to the URL from which the content of 
+--              @path@ in @owner@'s repository @repo@ can be downloaded.
+--
+--   [@toRawContents@] 
+--         if @fileContents == fetch downloadUrl@ then
+--         @toRawContents api fileContents@ yield the actual file contents from @fileContents@ as a string.
 data PathApi = PathApi { rawUrl :: String -> String -> String -> Maybe String -> Maybe String -> String
                        , toRawContents :: String -> String  } 
 
@@ -21,6 +31,7 @@ instance Eq PathApi where
   (==) x y = True
 
 
+-- | Path API for github server using the github API v3 (<https://developer.github.com/v3/>)
 githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                                        intercalate "/" ["https://api.github.com/repos",owner,repo,"contents",path++ parameters]
                                      where parameters | null parameterlist = ""  
@@ -32,13 +43,14 @@ githubApiV3 = PathApi{ rawUrl = let url owner repo path branch token =
                         toRawContents = error "not implemented yet"
                      }
 
+-- | Path API for github server (<https://github.com/>)
 githubApiRaw = PathApi{ rawUrl = let url owner repo path branch token =
                                         intercalate "/" ["https://raw.githubusercontent.com",owner,repo,branchname,path]
                                       where branchname = fromMaybe "master" branch 
                                  in url,
                         toRawContents = id
                      }
-
+-- | Path API for gogs git server (<https://gogs.io/>)
 gogsApiRaw server = PathApi{ rawUrl = let url owner repo path branch token =
                                              intercalate "/" ["https:/",server,"api","v1","repos",owner,repo,"raw",branchname,path++authtoken]
                                            where branchname = fromMaybe "master" branch 
@@ -51,11 +63,20 @@ gogsApiRaw server = PathApi{ rawUrl = let url owner repo path branch token =
 
 -- | Data type to describe repository information. 
 --
---   repository contains the github username and the repo name.
+--   [@owner@]      @owner@ specifies the github username
 --
---   prefix is usually "src/" or something similar.
+--   [@repository@] @repository@ contains the repo name.
 --
---   branch allows to specify a branch such as master or develop
+--   [@authToken@]  you can supply an authentication token for a repository that will be
+--                  used by the path api to autheticate access to the repository 
+--
+--   [@prefix@]     @prefix@ is usually "src/" or something similar.
+--
+--   [@branch@]     @branch@ allows to specify a branch such as master or develop
+--   
+--   [@pathApi@]    @pathApi@ let's you select an API for repository paths
+--                  the default API is for github (@githubApiRaw@) other apis
+--                  available in this module are @gogsApiRaw@ and @githubApiV3@
 data Repository = Repository{ owner      :: String,
                               repository :: String,
                               authToken  :: Maybe String,
@@ -66,11 +87,12 @@ data Repository = Repository{ owner      :: String,
 
 -- | The Package type describes all information about a raskell-git-download package.
 --  
---   packageRepository describes the repository.
+--   [@packageRepository@] @packageRepository@ describes the repository.
 --
---   rootDir specifies in which location in the iOs Raskell filesystem the package will be deployed.
+--   [@rootDir@]           @rootDir@ specifies in which location in the iOs Raskell 
+--                         filesystem the package will be deployed.
 --
---   modules is a list of haskell modules to download.
+--   [@modules@]           @modules@ is a list of haskell modules to download.
 data Package = Package{ packageRepository :: Repository,
                         rootDir           :: String,
                         modules           :: [[String]]
@@ -108,10 +130,10 @@ raskellGitDownload = Package{
              ]
 }
 
--- | downloadPackage p downloads a packge.
+-- | @downloadPackage p@ downloads a packge.
 downloadPackage p = forM_ (modules p) $ gitDownload (packageRepository p) (rootDir p)
 
--- | intercalate from Data.List inlined here for self-containment
+-- | @intercalate@ from 'Data.List' inlined here for self-containment
 intercalate y []     = [] 
 intercalate y [x]    = x 
 intercalate y (x:xs) = x++y++intercalate y xs
