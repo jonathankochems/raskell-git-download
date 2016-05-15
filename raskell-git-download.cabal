@@ -58,7 +58,7 @@ source-repository head
 source-repository this
   type:     git
   location: git://github.com/jonathankochems/raskell-git-download.git 
-  branch:   feature/apis
+  branch:   develop
   tag:      tip
 
 library
