@@ -75,7 +75,7 @@ dataTypes = do
                                                repository="raskell-git-download",
                                                authToken=Nothing,
                                                prefix="src/",
-                                               branch="develop",
+                                               branch="master",
                                                pathApi=Nothing
                                      }
       rootDir raskellGitDownload `shouldBe` ""
